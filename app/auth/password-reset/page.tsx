@@ -556,12 +556,15 @@ const response = await authApi.verifyPasswordResetOtp({
 
     try {
 
+
+
 const response = await authApi.resetPassword({
   LoginChallengeId: loginChallengeId,
   ResetAuthorizationToken: restrictedToken,
   NewPassword: newPassword,
-  ConfirmPassword: confirmPassword
+  ConfirmNewPassword: confirmPassword
 });
+
       setLastResponse(response.raw);
 
       if (response.ok) {
