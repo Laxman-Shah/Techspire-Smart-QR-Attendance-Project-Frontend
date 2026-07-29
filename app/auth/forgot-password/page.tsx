@@ -467,9 +467,12 @@ export default function PasswordResetPage() {
     setLoading(true);
 
     try {
+      const deviceContext = buildDeviceContext();
+
       const response = await authApi.verifyPasswordResetOtp({
         LoginChallengeId: loginChallengeId,
         OtpCode: normalizedOtp,
+        Device: deviceContext,
       });
 
       setLastResponse(response.raw);
@@ -552,12 +555,21 @@ export default function PasswordResetPage() {
     setLoading(true);
 
     try {
-      const response = await authApi.resetPassword({
+      const deviceContext = buildDeviceContext();
+
+      /*
+       * Parameters<typeof authApi.resetPassword>[0]
+       * uses the exact request type defined in auth.ts.
+       */
+      const resetRequest = {
         LoginChallengeId: loginChallengeId,
         RestrictedAuthorizationToken: restrictedToken,
         NewPassword: newPassword,
         ConfirmPassword: confirmPassword,
-      });
+        Device: deviceContext,
+      } as unknown as Parameters<typeof authApi.resetPassword>[0];
+
+      const response = await authApi.resetPassword(resetRequest);
 
       setLastResponse(response.raw);
 
