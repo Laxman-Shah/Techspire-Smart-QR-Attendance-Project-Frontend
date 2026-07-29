@@ -1,0 +1,39 @@
+{
+  "name": "smart-qr-module1-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "dev:turbo": "next dev --turbo",
+    "dev:safe": "next dev --webpack --hostname 0.0.0.0",
+    "dev:mem": "node --max-old-space-size=4096 ./node_modules/next/dist/bin/next dev --webpack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "latest",
+    "axios": "latest",
+    "clsx": "latest",
+    "lucide-react": "latest",
+    "next": "^16.2.12",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "latest",
+    "react-hot-toast": "latest",
+    "zod": "latest",
+    "zustand": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "autoprefixer": "^10.5.4",
+    "eslint": "^10.8.0",
+    "eslint-config-next": "^0.2.4",
+    "postcss": "^8.5.23",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3"
+  }
+}
