@@ -552,50 +552,59 @@ const response = await authApi.verifyPasswordResetOtp({
       return;
     }
 
-    setLoading(true);
+  
+  
+  setLoading(true);
 
-    try {
+try {
+  const deviceContext = buildDeviceContext();
 
+  const response = await authApi.resetPassword({
+    LoginChallengeId: loginChallengeId,
+    ResetAuthorizationToken: restrictedToken,
+    NewPassword: newPassword,
+    ConfirmNewPassword: confirmPassword,
+    Device: deviceContext
+  });
 
+  setLastResponse(response.raw);
 
-const response = await authApi.resetPassword({
-  LoginChallengeId: loginChallengeId,
-  ResetAuthorizationToken: restrictedToken,
-  NewPassword: newPassword,
-  ConfirmNewPassword: confirmPassword
-});
+  if (response.ok) {
+    toast.success(
+      "Password reset successfully. Please login with your new password."
+    );
 
-      setLastResponse(response.raw);
+    window.setTimeout(() => {
+      window.location.href = "/login";
+    }, 2000);
 
-      if (response.ok) {
-        toast.success(
-          "Password reset successfully. Please login with your new password."
-        );
+    return;
+  }
 
-        window.setTimeout(() => {
-          window.location.href = "/login";
-        }, 2000);
-
-        return;
+  const responseData = response.raw as
+    | {
+        message?: string;
+        title?: string;
       }
+    | undefined;
 
-      const responseData = response.raw as
-        | { message?: string; title?: string }
-        | undefined;
+  const errorMessage =
+    responseData?.message ??
+    responseData?.title ??
+    `Password reset failed: ${response.status}`;
 
-      toast.error(
-        responseData?.message ??
-          responseData?.title ??
-          `Password reset failed: ${response.status}`
-      );
+  toast.error(errorMessage);
+  showValidationErrors(response.raw);
+} catch (error) {
+  console.error("Password reset failed:", error);
 
-      showValidationErrors(response.raw);
-    } catch (error) {
-      console.error("Password reset failed:", error);
-      toast.error("An error occurred while resetting the password");
-    } finally {
-      setLoading(false);
-    }
+  toast.error(
+    "An error occurred while resetting the password"
+  );
+} finally {
+  setLoading(false);
+}
+  
   };
 
   const copyToClipboard = async (text: string, label: string) => {
