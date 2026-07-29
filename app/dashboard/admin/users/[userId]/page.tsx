@@ -213,7 +213,7 @@ function UserDetailsContent() {
         data.refreshTokensRevokedCount > 0 && `${data.refreshTokensRevokedCount} refresh token(s)`,
         data.pendingChallengesRevoked > 0 && `${data.pendingChallengesRevoked} challenge(s)`,
         data.otpTokensRevoked > 0 && `${data.otpTokensRevoked} OTP(s)`,
-        data.deviceReplacementRequestsRevoked > 0 && `${data.deviceReplacementRequestsRevoked} replacement request(s)`
+        (data.deviceReplacementRequestsRevoked ?? 0) > 0 && `${data.deviceReplacementRequestsRevoked} replacement request(s)`
       ].filter(Boolean);
 
       if (counts.length === 0) {
