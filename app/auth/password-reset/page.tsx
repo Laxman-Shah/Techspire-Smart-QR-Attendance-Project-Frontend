@@ -467,10 +467,13 @@ export default function PasswordResetPage() {
     setLoading(true);
 
     try {
-      const response = await authApi.verifyPasswordResetOtp({
-        LoginChallengeId: loginChallengeId,
-        OtpCode: normalizedOtp
-      });
+      const deviceContext = buildDeviceContext();
+
+const response = await authApi.verifyPasswordResetOtp({
+  LoginChallengeId: loginChallengeId,
+  OtpCode: normalizedOtp,
+  Device: deviceContext
+});
 
       setLastResponse(response.raw);
 
