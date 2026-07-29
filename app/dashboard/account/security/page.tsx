@@ -100,9 +100,10 @@ function AccountSecurityContent() {
         toast.success("Password changed successfully. Please sign in again.");
         clearAuth();
         router.push("/login");
-      } else {
+      }  else {
         // Show backend error details if available
-        const errorMessage = res.data?.detail || res.data?.title || "Failed to change password";
+        const responseData = res.raw as Record<string, unknown>;
+        const errorMessage = (responseData?.detail as string) || (responseData?.title as string) || (responseData?.message as string) || "Failed to change password";
         toast.error(errorMessage);
       }
     } catch (err: any) {
@@ -112,7 +113,6 @@ function AccountSecurityContent() {
       setLoading(false);
     }
   };
-
 
   return (
     <div className="space-y-6">
